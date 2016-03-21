@@ -2,6 +2,22 @@ defmodule Pragmatic.Windows do
 
   @doc """
   Take a long Windows path or a path with spaces in it and return the 8.3 version of that name
+
+  The function will throw a runtime error if you attempt to invoke it on a path that doesn't exist. E. g.
+
+  iex> Pragmatic.Windows.get_short_name("c:/nosuchpath")
+  ** (RuntimeError) The specified directory "c:/nosuchpath" does not exist
+
+  A runtime error will also be thrown if you attempt to run this function on a non-Windows OS.
+
+  Otherwise, you want to pass a directory using forward slashes as the path separator (yes, this does work on Windows)
+ 
+  iex> Pragmatic.Windows.get_short_name("c:/program files")
+  "c:/PROGRA~1"
+
+  iex> Pragmatic.Windows.get_short_name("c:/users")
+  "c:/Users"
+
   """
   @spec get_short_name(Path.t)::Path.t
   def get_short_name(path) when is_binary(path) do

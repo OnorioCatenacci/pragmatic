@@ -1,2 +1,0 @@
-defmodule Pragmatic do
-end
