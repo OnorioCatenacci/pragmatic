@@ -1,0 +1,51 @@
+defmodule Pragmatic.Windows do
+
+  @doc """
+  Take a long Windows path or a path with spaces in it and return the 8.3 version of that name
+  """
+  @spec get_short_name(Path.t)::Path.t
+  def get_short_name(path) when is_binary(path) do
+    if !({:win32, _} = :os.type), do: raise "This function can only be run on Windows"
+    if !(File.exists?(path)), do: raise "The specified directory \"#{path}\" does not exist"
+    quoted_path = if path_contains_spaces?(path), do: "\"#{path}\"", else: path
+
+    #NB for some reason I could not get System.cmd to work with this particular shell command.  If you can
+    #get it working, please share your fix with me.
+    :os.cmd('cmd /c FOR %d IN (#{quoted_path}) DO %~sd 2>nul')
+    |> to_string
+    |> strip_newlines_from_string
+    |> strip_all_chars_up_to(">")
+    |> String.strip
+  end
+
+  @spec path_contains_spaces?(Path.t)::boolean
+  defp path_contains_spaces?(path) when is_binary(path) do
+    #NB: Currently there's no way I can figure out to tell if the path has a "\" in it so you must pass the path
+    #as /dir/dir/dir (yes this does work on Windows).
+    spaces_in_middle = ~r/\S+\s+\S+/
+    initial_spaces = ~r/\s+.*/
+    trailing_spaces = ~r/.*\s+/
+    (String.match?(path,spaces_in_middle) or String.match?(path, initial_spaces) or String.match?(path,trailing_spaces))
+  end
+  
+  @spec strip_newlines_from_string(String.t)::String.t
+  defp strip_newlines_from_string(s) when is_binary(s) do
+    windows_newline = "\r\n"
+    if String.contains?(s,windows_newline), do: String.replace(s, windows_newline, ""), else: s
+  end
+
+  @spec get_position_of_char(String.t, String.t, Integer)::Integer
+  defp get_position_of_char(s, char, cnt) do
+    {g, tail} = String.next_grapheme(s)
+    if g === char, do: cnt, else: get_position_of_char(tail, char, cnt+1)
+  end
+
+  @spec strip_all_chars_up_to(String.t, String.t)::String.t
+  defp strip_all_chars_up_to(s, char) do
+    if String.contains?(s,char) do
+      index_of_char = get_position_of_char(s, char, 0)
+      {_,short_name} = String.split_at(s,index_of_char+1) #Add one since this is 0 based.
+      short_name
+    end
+  end
+end
