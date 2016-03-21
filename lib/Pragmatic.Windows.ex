@@ -16,6 +16,8 @@ defmodule Pragmatic.Windows do
     |> strip_newlines_from_string
     |> strip_all_chars_up_to(">")
     |> String.strip
+    |> Path.split
+    |> Path.join
   end
 
   @spec path_contains_spaces?(Path.t)::boolean
