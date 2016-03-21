@@ -23,10 +23,12 @@ defmodule Pragmatic.Windows do
   def get_short_name(path) when is_binary(path) do
     if !({:win32, _} = :os.type), do: raise "This function can only be run on Windows"
     if !(File.exists?(path)), do: raise "The specified directory \"#{path}\" does not exist"
+    # If the path contains spaces it needs to be surrouneded with quotes. Otherwise, do _not_ surround it with quotes.
     quoted_path = if path_contains_spaces?(path), do: "\"#{path}\"", else: path
 
-    #NB for some reason I could not get System.cmd to work with this particular shell command.  If you can
-    #get it working, please share your fix with me.
+    # NB for some reason I could not get System.cmd to work with this particular shell command.  If you can
+    # get it working, please share your fix with me.
+    # 2>nul suppresses a bogus error message. 
     :os.cmd('cmd /c FOR %d IN (#{quoted_path}) DO %~sd 2>nul')
     |> to_string
     |> strip_newlines_from_string
@@ -38,8 +40,8 @@ defmodule Pragmatic.Windows do
 
   @spec path_contains_spaces?(Path.t)::boolean
   defp path_contains_spaces?(path) when is_binary(path) do
-    #NB: Currently there's no way I can figure out to tell if the path has a "\" in it so you must pass the path
-    #as /dir/dir/dir (yes this does work on Windows).
+    # NB: Currently there's no way I can figure out to tell if the path has a "\" in it (since "\" is an escape character
+    # so you must pass the path as /dir/dir/dir (yes this does work on Windows).
     spaces_in_middle = ~r/\S+\s+\S+/
     initial_spaces = ~r/\s+.*/
     trailing_spaces = ~r/.*\s+/
