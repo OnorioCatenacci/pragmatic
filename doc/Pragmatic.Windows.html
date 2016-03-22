@@ -66,6 +66,22 @@
       </h1>
 
       
+        <section id="moduledoc" class="docstring">
+          <p>Take a long Windows path or a path with spaces in it and return the 8.3 version of that name</p>
+<p>The function will throw a runtime error if you attempt to invoke it on a path that doesn’t exist. E. g.</p>
+<h2>Examples</h2>
+<pre><code class="iex elixir">iex&gt; Pragmatic.Windows.get_short_name(&quot;c:/nosuchpath&quot;)
+** (RuntimeError) The specified directory &quot;c:/nosuchpath&quot; does not exist</code></pre>
+<p>A runtime error will also be thrown if you attempt to run this function on a non-Windows OS.</p>
+<p>Otherwise, you want to pass a directory using forward slashes as the path separator (yes, this does work on Windows)</p>
+<pre><code class="iex elixir">iex&gt; Pragmatic.Windows.get_short_name(&quot;c:/program files&quot;)
+&quot;c:/PROGRA~1&quot;
+
+iex&gt; Pragmatic.Windows.get_short_name(&quot;c:/users&quot;)
+&quot;c:/Users&quot;</code></pre>
+
+        </section>
+      
 
       
         <section id="summary" class="details-list">
@@ -86,9 +102,6 @@
   <div class="summary-signature">
     <a href="#get_short_name/1">get_short_name(path)</a>
   </div>
-  
-    <div class="summary-synopsis"><p>Take a long Windows path or a path with spaces in it and return the 8.3 version of that name</p>
-</div>
   
 </div>
 
@@ -131,17 +144,7 @@
     </div>
   
   <section class="docstring">
-    <p>Take a long Windows path or a path with spaces in it and return the 8.3 version of that name</p>
-<p>The function will throw a runtime error if you attempt to invoke it on a path that doesn’t exist. E. g.</p>
-<p>iex&gt; Pragmatic.Windows.get_short_name(“c:/nosuchpath”)
-** (RuntimeError) The specified directory “c:/nosuchpath” does not exist</p>
-<p>A runtime error will also be thrown if you attempt to run this function on a non-Windows OS.</p>
-<p>Otherwise, you want to pass a directory using forward slashes as the path separator (yes, this does work on Windows)</p>
-<p>iex&gt; Pragmatic.Windows.get_short_name(“c:/program files”)
-“c:/PROGRA~1”</p>
-<p>iex&gt; Pragmatic.Windows.get_short_name(“c:/users”)
-“c:/Users”</p>
-
+    
   </section>
 </div>
 
