@@ -29,7 +29,10 @@ defmodule Pragmatic.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:ex_doc, "~> 0.11.4"},
+      {:earmark, "~> 0.2.1"}
+    ]
   end
 
   defp description do
