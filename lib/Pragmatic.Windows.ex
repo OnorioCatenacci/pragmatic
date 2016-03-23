@@ -56,7 +56,7 @@ defmodule Pragmatic.Windows do
     if String.contains?(s,windows_newline), do: String.replace(s, windows_newline, ""), else: s
   end
 
-  @spec get_position_of_char(String.t, String.t, Integer)::Integer
+  @spec get_position_of_char(String.t, String.t , non_neg_integer)::pos_integer
   defp get_position_of_char(s, char, cnt) do
     {g, tail} = String.next_grapheme(s)
     if g === char, do: cnt, else: get_position_of_char(tail, char, cnt+1)
