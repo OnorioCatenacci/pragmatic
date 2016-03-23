@@ -23,8 +23,8 @@ defmodule Pragmatic.Windows do
   """
   @spec get_short_name(Path.t)::Path.t
   def get_short_name(path) when is_binary(path) do
-    if !({:win32, _} = :os.type), do: raise "This function can only be run on Windows"
-    if !(File.exists?(path)), do: raise "The specified directory \"#{path}\" does not exist"
+    if not(running_on_windows?()), do: raise "This function can only be run on Windows"
+    if not(File.exists?(path)), do: raise "The specified directory \"#{path}\" does not exist"
     # If the path contains spaces it needs to be surrouneded with quotes. Otherwise, do _not_ surround it with quotes.
     quoted_path = if path_contains_spaces?(path), do: "\"#{path}\"", else: path
 
@@ -69,5 +69,11 @@ defmodule Pragmatic.Windows do
       {_,short_name} = String.split_at(s,index_of_char+1) #Add one since this is 0 based.
       short_name
     end
+  end
+
+  @spec running_on_windows?::boolean
+  defp running_on_windows?() do
+    {osfamily,_} = :os.type()
+    osfamily === :win32
   end
 end
