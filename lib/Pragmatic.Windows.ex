@@ -1,6 +1,9 @@
 defmodule Pragmatic.Windows do
-
   @moduledoc ~S"""
+  Utility functions specifically for dealing with issues which arise when using Elixir on Windows.
+  """
+
+  @doc ~S"""
   Take a long Windows path or a path with spaces in it and return the 8.3 version of that name
 
   The function will throw a runtime error if you attempt to invoke it on a path that doesn't exist. E. g.
@@ -76,4 +79,17 @@ defmodule Pragmatic.Windows do
     {osfamily,_} = :os.type()
     osfamily === :win32
   end
+
+  @doc"""
+  Is the currently logged-in user an admin?
+  """
+  @spec user_is_admin?()::boolean
+  def user_is_admin?() do
+    if not(running_on_windows?()), do: raise "This function can only be run on Windows"
+    user_is_non_admin = :os.cmd('cmd /c net session 2>&1') # 2>&1 redirects error output to stdout
+    |> to_string
+    |> String.contains?("denied")
+    not(user_is_non_admin)
+  end
+  
 end
