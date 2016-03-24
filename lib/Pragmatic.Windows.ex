@@ -86,10 +86,10 @@ defmodule Pragmatic.Windows do
   @spec user_is_admin?()::boolean
   def user_is_admin?() do
     if not(running_on_windows?()), do: raise "This function can only be run on Windows"
-    user_is_non_admin = :os.cmd('cmd /c net session 2>&1') # 2>&1 redirects error output to stdout
+    :os.cmd('cmd /c net session 2>&1') # 2>&1 redirects error output to stdout
     |> to_string
     |> String.contains?("denied")
-    not(user_is_non_admin)
+    |> Kernel.not
   end
   
 end
