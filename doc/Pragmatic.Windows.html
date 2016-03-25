@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Pragmatic.Windows – pragmatic v0.1.5</title>
+    <title>Pragmatic.Windows – pragmatic v0.1.6</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         pragmatic
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.1.5
+        v0.1.6
       </h2>
     </div>
     
@@ -59,7 +59,7 @@
 
 
       <h1>
-        <small class="visible-xs">pragmatic v0.1.5</small>
+        <small class="visible-xs">pragmatic v0.1.6</small>
         Pragmatic.Windows
         
         
@@ -88,6 +88,15 @@
       <a href="#functions">Functions</a>
     </h2>
     <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_current_user/1">get_current_user(list)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Return the name of the user the current process is running under.  This is handy for logging errors</p>
+</div>
+  
+</div>
+<div class="summary-row">
   <div class="summary-signature">
     <a href="#get_short_name/1">get_short_name(path)</a>
   </div>
@@ -126,7 +135,45 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="get_short_name/1">
+          <div class="detail" id="get_current_user/1">
+  <div class="detail-header">
+    <a href="#get_current_user/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_current_user(list)</span>
+      
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">get_current_user([{:show_domain, boolean}]) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Return the name of the user the current process is running under.  This is handy for logging errors.  </p>
+<h3>Parameters</h3>
+<ul>
+<li><p>show_domain: (boolean)</p>
+<ul>
+<li>if true, return the current user in the domain\user format.  Otherwise, just return user.
+</li>
+</ul>
+</li>
+</ul>
+<h2>Examples</h2>
+<pre><code class="iex elixir">iex&gt; Pragmatic.Windows.get_current_user(show_domain: false)
+&quot;ocatenacci&quot;
+
+iex&gt; Pragmatic.Windows.get_current_user(show_domain: true)
+&quot;RIIS\\ocatenacci&quot;</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="get_short_name/1">
   <div class="detail-header">
     <a href="#get_short_name/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
@@ -146,13 +193,12 @@
   
   <section class="docstring">
     <p>Take a long Windows path or a path with spaces in it and return the 8.3 version of that name</p>
-<p>The function will throw a runtime error if you attempt to invoke it on a path that doesn’t exist. E. g.</p>
+<p>A runtime error will also be thrown if you attempt to run this function on a non-Windows OS. Also, the function will throw a runtime error if you attempt to invoke it on a path that doesn’t exist. Otherwise, you should specify the directory in the format drive:/dir/dir/dir etc. Contrary to the common, mistaken believe forward slashes can be used as a directory separator on Windows.</p>
 <h2>Examples</h2>
 <pre><code class="iex elixir">iex&gt; Pragmatic.Windows.get_short_name(&quot;c:/nosuchpath&quot;)
-** (RuntimeError) The specified directory &quot;c:/nosuchpath&quot; does not exist</code></pre>
-<p>A runtime error will also be thrown if you attempt to run this function on a non-Windows OS.</p>
-<p>Otherwise, you want to pass a directory using forward slashes as the path separator (yes, this does work on Windows)</p>
-<pre><code class="iex elixir">iex&gt; Pragmatic.Windows.get_short_name(&quot;c:/program files&quot;)
+** (RuntimeError) The specified directory &quot;c:/nosuchpath&quot; does not exist
+
+iex&gt; Pragmatic.Windows.get_short_name(&quot;c:/program files&quot;)
 &quot;c:/PROGRA~1&quot;
 
 iex&gt; Pragmatic.Windows.get_short_name(&quot;c:/users&quot;)

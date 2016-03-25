@@ -1,21 +1,17 @@
 defmodule Pragmatic.Windows do
   @moduledoc ~S"""
-  Utility functions specifically for dealing with issues which arise when using Elixir on Windows.
+  Utility functions for dealing with issues which arise when using Elixir on Windows.
   """
 
   @doc ~S"""
   Take a long Windows path or a path with spaces in it and return the 8.3 version of that name
 
-  The function will throw a runtime error if you attempt to invoke it on a path that doesn't exist. E. g.
+  A runtime error will also be thrown if you attempt to run this function on a non-Windows OS. Also, the function will throw a runtime error if you attempt to invoke it on a path that doesn't exist. Otherwise, you should specify the directory in the format drive:/dir/dir/dir etc. Contrary to the common, mistaken believe forward slashes can be used as a directory separator on Windows.
 
   ## Examples
 
       iex> Pragmatic.Windows.get_short_name("c:/nosuchpath")
       ** (RuntimeError) The specified directory "c:/nosuchpath" does not exist
-
-  A runtime error will also be thrown if you attempt to run this function on a non-Windows OS.
-
-  Otherwise, you want to pass a directory using forward slashes as the path separator (yes, this does work on Windows)
 
       iex> Pragmatic.Windows.get_short_name("c:/program files")
       "c:/PROGRA~1"
@@ -90,6 +86,30 @@ defmodule Pragmatic.Windows do
     |> to_string
     |> String.contains?("denied")
     |> Kernel.not
+  end
+
+  @doc"""
+  Return the name of the user the current process is running under.  This is handy for logging errors.  
+
+  ### Parameters
+    * show_domain: (boolean)
+      * if true, return the current user in the domain\x5Cuser format.  Otherwise, just return user.
+
+  ## Examples
+
+      iex> Pragmatic.Windows.get_current_user(show_domain: false)
+      "ocatenacci"
+ 
+      iex> Pragmatic.Windows.get_current_user(show_domain: true)
+      "RIIS\\\\ocatenacci"
+
+  """
+  @spec get_current_user([{:show_domain, boolean}])::String.t
+  def get_current_user([show_domain: show_domain]) do
+    if not(running_on_windows?()), do: raise "This function can only be run on Windows"
+    domain = System.get_env("UserDomain")
+    uname = System.get_env("UserName")
+    if (show_domain), do: "#{domain}\\#{uname}", else: "#{uname}"
   end
   
 end

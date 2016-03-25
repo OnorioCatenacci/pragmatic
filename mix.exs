@@ -3,7 +3,7 @@ defmodule Pragmatic.Mixfile do
 
   def project do
     [app: :pragmatic,
-     version: "0.1.5",
+     version: "0.1.6",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -25,7 +25,7 @@ defmodule Pragmatic.Mixfile do
 
   defp description do
     """
-    A small, simple library to deal with the practical issue of paths with spaces on Windows
+    A small, simple library to deal with the practical issues arising from using Elixir on Windows
     """
   end
 
