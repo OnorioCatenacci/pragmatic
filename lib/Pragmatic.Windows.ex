@@ -1,4 +1,6 @@
 defmodule Pragmatic.Windows do
+  @stderr 2
+  @stdout 1
   @moduledoc ~S"""
   Utility functions for dealing with issues which arise when using Elixir on Windows.
   """
@@ -30,7 +32,7 @@ defmodule Pragmatic.Windows do
     # NB for some reason I could not get System.cmd to work with this particular shell command.  If you can
     # get it working, please share your fix with me.
     # 2>nul suppresses a bogus error message. 
-    :os.cmd('cmd /c FOR %d IN (#{quoted_path}) DO %~sd 2>nul')
+    :os.cmd('cmd /c FOR %d IN (#{quoted_path}) DO %~sd #{@stderr}>nul') #Pipe stderr to nul so that errors are not displayed.
     |> to_string
     |> strip_newlines_from_string
     |> strip_all_chars_up_to(">")
@@ -82,7 +84,7 @@ defmodule Pragmatic.Windows do
   @spec user_is_admin?()::boolean
   def user_is_admin?() do
     if not(running_on_windows?()), do: raise "This function can only be run on Windows"
-    :os.cmd('cmd /c net session 2>&1') # 2>&1 redirects error output to stdout
+    :os.cmd('cmd /c net session #{@stderr}>&#{@stdout}') # redirect stderr to stdout so error messages can be trapped
     |> to_string
     |> String.contains?("denied")
     |> Kernel.not
