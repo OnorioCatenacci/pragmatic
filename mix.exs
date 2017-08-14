@@ -3,13 +3,13 @@ defmodule Pragmatic.Mixfile do
 
   def project do
     [app: :pragmatic,
-     version: "0.1.7",
+     version: "0.1.8",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     description: description,
-     package: package,
-     deps: deps]
+     description: description(),
+     package: package(),
+     deps: deps()]
   end
 
   def application do

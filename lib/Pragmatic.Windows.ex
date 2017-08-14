@@ -36,7 +36,7 @@ defmodule Pragmatic.Windows do
     |> to_string
     |> strip_newlines_from_string
     |> strip_all_chars_up_to(">")
-    |> String.strip
+    |> String.trim
     |> Path.split
     |> Path.join
   end
