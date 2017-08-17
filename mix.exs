@@ -20,8 +20,8 @@ defmodule Pragmatic.Mixfile do
 
   defp deps do
     [
-      {:earmark, "~> 0.2.1", only: :dev},
-      {:ex_doc, "~> 0.11.4", only: :dev},
+      {:earmark,"~> 1.2", only: :dev},
+      {:ex_doc, "~> 0.16.2", only: :dev},
       {:rustler, "~> 0.10.1"}
     ]
   end
@@ -33,7 +33,7 @@ defmodule Pragmatic.Mixfile do
   end
 
   defp rustler_crates do
-    [Pragmatic.Windows: [
+    [Pragmatic: [
         path: "native/pragmatic_windows",
         mode: (if Mix.env == :prod, do: :release, else: :debug),
       ]]
