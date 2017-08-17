@@ -4,7 +4,7 @@ defmodule Pragmatic.Mixfile do
   def project do
     [app: :pragmatic,
      version: "0.1.8",
-     elixir: "~> 1.2",
+     elixir: "~> 1.5",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      description: description(),
@@ -18,8 +18,8 @@ defmodule Pragmatic.Mixfile do
 
   defp deps do
     [
-      {:earmark, "~> 0.2.1", only: :dev},
-      {:ex_doc, "~> 0.11.4", only: :dev}
+      {:earmark, "~> 1.2", only: :dev},
+      {:ex_doc, "~> 0.16.2", only: :dev}
     ]
   end
 
