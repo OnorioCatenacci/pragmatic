@@ -1,10 +1,10 @@
 [package]
-name = "pragmatic_windows"
+name = "pragmatic"
 version = "0.1.0"
 authors = []
 
 [lib]
-name = "pragmatic_windows"
+name = "pragmatic"
 path = "src/lib.rs"
 crate-type = ["dylib"]
 

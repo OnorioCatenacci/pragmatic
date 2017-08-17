@@ -34,7 +34,7 @@ defmodule Pragmatic.Mixfile do
 
   defp rustler_crates do
     [Pragmatic: [
-        path: "native/pragmatic_windows",
+        path: "native/pragmatic",
         mode: (if Mix.env == :prod, do: :release, else: :debug),
       ]]
   end
