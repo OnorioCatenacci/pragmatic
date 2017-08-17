@@ -1,24 +1,26 @@
     <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.11.4">
-    <title>Pragmatic.Windows – pragmatic v0.1.6</title>
-    <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
-    <script src="dist/sidebar_items.js"></script>
+    <meta name="generator" content="ExDoc v0.16.2">
+    <title>Pragmatic.Windows – pragmatic v0.1.8</title>
+    <link rel="stylesheet" href="dist/app-268c9dc719.css" />
+    
+      <link rel="canonical" href="https://hexdocs.pm/pragmatic/Pragmatic.Windows.html" />
+    
+    <script src="dist/sidebar_items-ee26181216.js"></script>
   </head>
   <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
 
     <div class="main">
 <button class="sidebar-toggle">
-  <i class="icon-menu"></i>
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
 </button>
 <section class="sidebar">
-  <button class="sidebar-toggle">
-    <i class="icon-menu"></i>
-  </button>
 
   
   <a href="api-reference.html" class="sidebar-projectLink">
@@ -27,15 +29,15 @@
         pragmatic
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.1.6
+        v0.1.8
       </h2>
     </div>
     
   </a>
 
   <div class="sidebar-search">
-    <i class="icon-search"></i>
-    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+    <span class="icon-search" aria-hidden="true"></span>
+    <input type="text" class="sidebar-searchInput" placeholder="search" aria-label="Search" autocomplete="off" />
   </div>
 
   <ul class="sidebar-listNav">
@@ -48,26 +50,27 @@
     
 
     
-  </ul>
 
+    
+  </ul>
+  <div class="gradient"></div>
   <ul id="full-list" class="sidebar-fullList"></ul>
-  <div class="sidebar-noResults"></div>
 </section>
 
 <section class="content">
-  <div id="content" class="content-inner">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
 
 
       <h1>
-        <small class="visible-xs">pragmatic v0.1.6</small>
+        <small class="visible-xs">pragmatic v0.1.8</small>
         Pragmatic.Windows
-        
         
       </h1>
 
       
-        <section id="moduledoc" class="docstring">
-          <p>Utility functions specifically for dealing with issues which arise when using Elixir on Windows.</p>
+        <section id="moduledoc">
+          <p>Utility functions for dealing with issues which arise when using Elixir on Windows.</p>
 
         </section>
       
@@ -76,7 +79,8 @@
         <section id="summary" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#summary">
-              <i class="icon-link"></i>
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
             </a>
             Summary
           </h1>
@@ -120,8 +124,6 @@
 
           
 
-          
-
         </section>
       
 
@@ -131,31 +133,36 @@
         <section id="functions" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#functions">
-              <i class="icon-link"></i>
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
             </a>
             Functions
           </h1>
           <div class="detail" id="get_current_user/1">
+  
   <div class="detail-header">
     <a href="#get_current_user/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">get_current_user(list)</span>
-      
-  </div>
-  
-    <div class="specs">
-      <h4 class="specs-title">Specs</h4>
-      <div class="specs-list">
+    
+    
+    
+      <div class="specs">
         
-          <pre><code class="elixir">get_current_user([{:show_domain, boolean}]) :: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a></code></pre>
+          <pre>get_current_user([{:show_domain, boolean}]) :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a></pre>
         
       </div>
-    </div>
-  
+    
+  </div>
   <section class="docstring">
     <p>Return the name of the user the current process is running under.  This is handy for logging errors.  </p>
-<h3>Parameters</h3>
+<h3 id="get_current_user/1-parameters" class="section-heading">
+  <a href="#get_current_user/1-parameters" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Parameters
+</h3>
+
 <ul>
 <li><p>show_domain: (boolean)</p>
 <ul>
@@ -164,37 +171,45 @@
 </ul>
 </li>
 </ul>
-<h2>Examples</h2>
+<h2 id="get_current_user/1-examples" class="section-heading">
+  <a href="#get_current_user/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
 <pre><code class="iex elixir">iex&gt; Pragmatic.Windows.get_current_user(show_domain: false)
-&quot;ocatenacci&quot;
+&quot;caten&quot;
 
 iex&gt; Pragmatic.Windows.get_current_user(show_domain: true)
-&quot;RIIS\\ocatenacci&quot;</code></pre>
+&quot;DESKTOP-3GQCDMC\\caten&quot;</code></pre>
 
   </section>
 </div>
 <div class="detail" id="get_short_name/1">
+  
   <div class="detail-header">
     <a href="#get_short_name/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">get_short_name(path)</span>
-      
-  </div>
-  
-    <div class="specs">
-      <h4 class="specs-title">Specs</h4>
-      <div class="specs-list">
+    
+    
+    
+      <div class="specs">
         
-          <pre><code class="elixir">get_short_name(<a href="http://elixir-lang.org/docs/stable/elixir/Path.html#t:t/0">Path.t</a>) :: <a href="http://elixir-lang.org/docs/stable/elixir/Path.html#t:t/0">Path.t</a></code></pre>
+          <pre>get_short_name(<a href="https://hexdocs.pm/elixir/Path.html#t:t/0">Path.t</a>) :: <a href="https://hexdocs.pm/elixir/Path.html#t:t/0">Path.t</a></pre>
         
       </div>
-    </div>
-  
+    
+  </div>
   <section class="docstring">
     <p>Take a long Windows path or a path with spaces in it and return the 8.3 version of that name</p>
 <p>A runtime error will also be thrown if you attempt to run this function on a non-Windows OS. Also, the function will throw a runtime error if you attempt to invoke it on a path that doesn’t exist. Otherwise, you should specify the directory in the format drive:/dir/dir/dir etc. Contrary to the common, mistaken believe forward slashes can be used as a directory separator on Windows.</p>
-<h2>Examples</h2>
+<h2 id="get_short_name/1-examples" class="section-heading">
+  <a href="#get_short_name/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
 <pre><code class="iex elixir">iex&gt; Pragmatic.Windows.get_short_name(&quot;c:/nosuchpath&quot;)
 ** (RuntimeError) The specified directory &quot;c:/nosuchpath&quot; does not exist
 
@@ -207,23 +222,23 @@ iex&gt; Pragmatic.Windows.get_short_name(&quot;c:/users&quot;)
   </section>
 </div>
 <div class="detail" id="user_is_admin?/0">
+  
   <div class="detail-header">
     <a href="#user_is_admin?/0" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
     <span class="signature">user_is_admin?()</span>
-      
-  </div>
-  
-    <div class="specs">
-      <h4 class="specs-title">Specs</h4>
-      <div class="specs-list">
+    
+    
+    
+      <div class="specs">
         
-          <pre><code class="elixir">user_is_admin? :: boolean</code></pre>
+          <pre>user_is_admin?() :: boolean</pre>
         
       </div>
-    </div>
-  
+    
+  </div>
   <section class="docstring">
     <p>Is the currently logged-in user an admin?</p>
 
@@ -234,25 +249,24 @@ iex&gt; Pragmatic.Windows.get_short_name(&quot;c:/users&quot;)
       
 
       
-
-      
-        <footer class="footer">
-      <p>
-        <span class="line">
-          Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.11.4),
-        </span>
-        <span class="line">
-          designed by
-          <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.16.2),
           </span>
-      </p>
-      <button class="night-mode-toggle" />
-    </footer>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+        <button class="night-mode-toggle"><span class="sr-only">Switch theme</span></button>
+      </footer>
+    </div>
   </div>
 </section>
 </div>
-  <script src="dist/app-6d2e071366.js"></script>
+  <script src="dist/app-4988ddd06b.js"></script>
   </body>
 </html>
 

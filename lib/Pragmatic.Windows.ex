@@ -100,10 +100,10 @@ defmodule Pragmatic.Windows do
   ## Examples
 
       iex> Pragmatic.Windows.get_current_user(show_domain: false)
-      "ocatenacci"
+      "caten"
  
       iex> Pragmatic.Windows.get_current_user(show_domain: true)
-      "RIIS\\\\ocatenacci"
+      "DESKTOP-3GQCDMC\\\\caten"
 
   """
   @spec get_current_user([{:show_domain, boolean}])::String.t
