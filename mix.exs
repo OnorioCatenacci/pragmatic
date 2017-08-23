@@ -9,6 +9,8 @@ defmodule Pragmatic.Mixfile do
      start_permanent: Mix.env == :prod,
      description: description(),
      package: package(),
+     compilers: [:rustler] ++ Mix.compilers(),
+     rustler_crates: rustler_crates(),
      deps: deps()]
   end
 
@@ -18,8 +20,9 @@ defmodule Pragmatic.Mixfile do
 
   defp deps do
     [
-      {:earmark, "~> 1.2", only: :dev},
-      {:ex_doc, "~> 0.16.2", only: :dev}
+      {:earmark,"~> 1.2", only: :dev},
+      {:ex_doc, "~> 0.16.2", only: :dev},
+      {:rustler, "~> 0.10.1"}
     ]
   end
 
@@ -27,6 +30,13 @@ defmodule Pragmatic.Mixfile do
     """
     A small, simple library to deal with the practical issues arising from using Elixir on Windows
     """
+  end
+
+  defp rustler_crates do
+    [Pragmatic: [
+        path: "native/pragmatic",
+        mode: (if Mix.env == :prod, do: :release, else: :debug),
+      ]]
   end
 
   defp package do
