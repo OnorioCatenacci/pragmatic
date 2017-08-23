@@ -25,7 +25,7 @@ mod atoms {
 
 rustler_export_nifs! {
     "Elixir.Pragmatic.Windows",
-    [("add", 2, add),("check_short_names",2,check_short_names)],
+    [("add", 2, add),("check_short_names",0,check_short_names)],
     None
 }
 
