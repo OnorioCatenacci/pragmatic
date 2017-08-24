@@ -3,7 +3,7 @@ defmodule Pragmatic.Windows do
   use Rustler, otp_app: :pragmatic, crate: :pragmatic
 
   def add(_arg1, _arg2), do: exit(:nif_not_loaded)
-  def check_short_names(), do: exit(:nif_not_loaded)
+  def check_short_name_support(), do: exit(:nif_not_loaded)
   @stderr 2
   @stdout 1
   @moduledoc ~S"""

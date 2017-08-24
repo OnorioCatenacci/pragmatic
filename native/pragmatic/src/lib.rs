@@ -25,7 +25,7 @@ mod atoms {
 
 rustler_export_nifs! {
     "Elixir.Pragmatic.Windows",
-    [("add", 2, add),("check_short_names",0,check_short_names)],
+    [("add", 2, add),("check_short_name_support",0,check_short_name_support)],
     None
 }
 
@@ -36,17 +36,20 @@ fn add<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
       Ok((atoms::ok(), num1 + num2).encode(env))
 }
 
-fn check_short_names<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
+fn check_short_name_support<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
     let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
     let file_system_key = hklm.open_subkey_with_flags("SYSTEM\\CurrentControlSet\\Control\\FileSystem", KEY_READ).unwrap();
     let eight_dot_three_disabled: u32 = file_system_key.get_value("NtfsDisable8dot3NameCreation").unwrap();
 
-    match eight_dot_three_disabled {
-        0 => Ok((atoms::ok(), atoms::ntfs_create_short_names()).encode(env)),
-        1 => Ok((atoms::ok(), atoms::ntfs_never_create_short_names()).encode(env)),
-        2 => Ok((atoms::ok(), atoms::ntfs_create_short_per_volume()).encode(env)),
-        3 => Ok((atoms::ok(), atoms::ntfs_create_short_only_on_system_volume ()).encode(env)),
-        _ => Ok((atoms::error(),atoms::e_cannot_determine_ntfs_setting()).encode(env))
-    }
+    let (status_atom, message_atom) = match eight_dot_three_disabled
+    {
+        0 => (atoms::ok(), atoms::ntfs_create_short_names()),
+        1 => (atoms::ok(), atoms::ntfs_never_create_short_names()),
+        2 => (atoms::ok(), atoms::ntfs_create_short_per_volume()),
+        3 => (atoms::ok(), atoms::ntfs_create_short_only_on_system_volume ()),
+        _ => (atoms::error(), atoms::e_cannot_determine_ntfs_setting())
+    };
+
+    Ok((status_atom, message_atom).encode(env))
 }
 
