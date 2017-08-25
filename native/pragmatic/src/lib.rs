@@ -1,4 +1,6 @@
 #[macro_use] extern crate winreg;
+#[macro_use] extern crate kernel32;
+#[macro_use] extern crate winapi;
 #[macro_use] extern crate rustler;
 #[macro_use] extern crate rustler_codegen;
 #[macro_use] extern crate lazy_static;
@@ -6,6 +8,8 @@
 use rustler::{NifEnv, NifTerm, NifResult, NifEncoder};
 use winreg::RegKey;
 use winreg::enums::*;
+use winapi::{LPCWSTR,DWORD,LPWSTR};
+use kernel32::GetShortPathNameW;
 
 
 mod atoms {
@@ -25,7 +29,11 @@ mod atoms {
 
 rustler_export_nifs! {
     "Elixir.Pragmatic.Windows",
-    [("add", 2, add),("check_short_name_support",0,check_short_name_support)],
+    [
+        ("add", 2, add),
+        ("check_short_name_support", 0, check_short_name_support),
+        ("get_short_path_name", 1, get_short_path_name)
+    ],
     None
 }
 
@@ -53,3 +61,20 @@ fn check_short_name_support<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifRes
     Ok((status_atom, message_atom).encode(env))
 }
 
+fn get_short_path_name<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
+    use std::ffi::OsStr;
+    use std::os::windows::ffi::OsStrExt;
+    use std::iter::once;
+
+    let long_path_name: Vec<u16> = OsStr::new(try!(args[0].decode())).encode_wide().chain(once(0)).collect();
+    let short_path_name: LPWSTR = new LPWSTR;
+//    let long_path_name:String = try!(args[0].decode());
+//    let short_path_name:LPTSTR;
+    let mut length_short_path_name:DWORD = 0;
+    unsafe{
+        let len = GetShortPathNameW(long_path_name.as_ptr(), short_path_name, length_short_path_name);
+
+
+        Ok((atoms::ok(), String::from_utf16(std::slice::from_raw_parts(short_path_name,length_short_path_name as usize)).unwrap()).encode(env))
+    }
+}
