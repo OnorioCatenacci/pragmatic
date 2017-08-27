@@ -1,6 +1,6 @@
 #[macro_use] extern crate winreg;
-#[macro_use] extern crate kernel32;
-#[macro_use] extern crate winapi;
+//#[macro_use] extern crate kernel32;
+//#[macro_use] extern crate winapi;
 #[macro_use] extern crate rustler;
 #[macro_use] extern crate rustler_codegen;
 #[macro_use] extern crate lazy_static;
@@ -8,16 +8,13 @@
 use rustler::{NifEnv, NifTerm, NifResult, NifEncoder};
 use winreg::RegKey;
 use winreg::enums::*;
-use winapi::{LPCWSTR,DWORD,LPWSTR};
-use kernel32::GetShortPathNameW;
+/*use winapi::{LPCWSTR,DWORD,LPWSTR};
+use kernel32::GetShortPathNameW; */
 
 
 mod atoms {
     rustler_atoms! {
         atom ok;
-        //atom error;
-//        atom __true__ = "true";
-//        atom __false__ = "false";
         atom ntfs_create_short_names = "ntfs_create_short_names";
         atom ntfs_never_create_short_names = "ntfs_never_create_short_names";
         atom ntfs_create_short_per_volume = "ntfs_create_short_per_volume";
@@ -30,19 +27,17 @@ mod atoms {
 rustler_export_nifs! {
     "Elixir.Pragmatic.Windows",
     [
-        ("add", 2, add),
         ("check_short_name_support", 0, check_short_name_support),
-        ("get_short_path_name", 1, get_short_path_name)
     ],
     None
 }
 
-fn add<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
+/* fn add<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
     let num1: i64 = try!(args[0].decode());
     let num2: i64 = try!(args[1].decode());
 
       Ok((atoms::ok(), num1 + num2).encode(env))
-}
+} */
 
 fn check_short_name_support<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
     let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
@@ -61,7 +56,7 @@ fn check_short_name_support<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifRes
     Ok((status_atom, message_atom).encode(env))
 }
 
-fn get_short_path_name<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
+/*fn get_short_path_name<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<NifTerm<'a>> {
     use std::ffi::OsStr;
     use std::os::windows::ffi::OsStrExt;
     use std::iter::once;
@@ -77,4 +72,4 @@ fn get_short_path_name<'a>(env: NifEnv<'a>, args: &[NifTerm<'a>]) -> NifResult<N
 
         Ok((atoms::ok(), String::from_utf16(std::slice::from_raw_parts(short_path_name,length_short_path_name as usize)).unwrap()).encode(env))
     }
-}
+}*/
